@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(grep -E \"\\\\.\\(ts|tsx|js|json\\)$\")"
+      "Bash(grep -E \"\\\\.\\(ts|tsx|js|json\\)$\")",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"refactor: 优化认证、权限隔离和UI组件:*)"
     ]
   }
 }
