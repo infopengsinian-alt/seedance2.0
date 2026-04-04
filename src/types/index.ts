@@ -5,7 +5,7 @@ export type AspectRatio = '21:9' | '16:9' | '4:3' | '1:1' | '3:4' | '9:16';
 
 export type Duration = 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
 
-export type ModelId = 'seedance-2.0' | 'seedance-2.0-fast';
+export type ModelId = 'seedance-2.0' | 'seedance-2.0-fast' | 'seedance-2.0-fast-vip' | 'seedance-2.0-vip';
 
 // ============================================================
 // 用户认证类型
@@ -123,9 +123,19 @@ export const MODEL_OPTIONS: ModelOption[] = [
     description: '全能主角，音视频图均可参考 (暂不支持真人入镜)',
   },
   {
+    value: 'seedance-2.0-vip',
+    label: 'Seedance 2.0 VIP',
+    description: 'VIP专属720p全能模型，音视频图均可参考',
+  },
+  {
     value: 'seedance-2.0-fast',
     label: 'Seedance 2.0 Fast',
     description: '精简时长，音视频图均可参考 (暂不支持真人入镜)',
+  },
+  {
+    value: 'seedance-2.0-fast-vip',
+    label: 'Seedance 2.0 Fast VIP',
+    description: 'VIP专属720p快速模型，音视频图均可参考',
   },
 ];
 

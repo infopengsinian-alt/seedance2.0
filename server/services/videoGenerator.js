@@ -127,14 +127,24 @@ const FAKE_HEADERS = {
 const MODEL_MAP = {
   'seedance-2.0': 'dreamina_seedance_40_pro',
   'seedance-2.0-fast': 'dreamina_seedance_40',
+  'seedance-2.0-fast-vip': 'dreamina_seedance_40_vision',
+  'seedance-2.0-vip': 'dreamina_seedance_40_pro_vision',
 };
 
 const BENEFIT_TYPE_MAP = {
   'seedance-2.0': 'dreamina_video_seedance_20_pro',
   'seedance-2.0-fast': 'dreamina_seedance_20_fast',
+  'seedance-2.0-fast-vip': 'seedance_20_fast_720p_output',
+  'seedance-2.0-vip': 'seedance_20_pro_720p_output',
 };
 
-const SEEDANCE_DRAFT_VERSION = '3.3.9';
+// VIP 模型使用 3.3.12，普通模型使用 3.3.9
+const DRAFT_VERSION_MAP = {
+  'seedance-2.0': '3.3.9',
+  'seedance-2.0-fast': '3.3.9',
+  'seedance-2.0-fast-vip': '3.3.12',
+  'seedance-2.0-vip': '3.3.12',
+};
 
 // 分辨率配置
 const VIDEO_RESOLUTION = {
@@ -615,7 +625,9 @@ async function generateSeedanceVideo(options) {
   const resConfig = VIDEO_RESOLUTION[ratio] || VIDEO_RESOLUTION['4:3'];
   const { width, height } = resConfig;
 
-  console.log(`[video] ${modelKey}: ${width}x${height} (${ratio}) ${actualDuration}秒`);
+  const draftVersion = DRAFT_VERSION_MAP[modelKey] || '3.3.9';
+
+  console.log(`[video] ${modelKey}: ${width}x${height} (${ratio}) ${actualDuration}秒, draftVersion=${draftVersion}`);
   logRequestContext('本次生成绑定账号', requestContext);
 
   if (onProgress) onProgress('正在上传参考图片...');
@@ -663,6 +675,24 @@ async function generateSeedanceVideo(options) {
   const divisor = gcd(width, height);
   const aspectRatio = `${width / divisor}:${height / divisor}`;
 
+  const isVipVisionModel = modelKey === 'seedance-2.0-fast-vip' || modelKey === 'seedance-2.0-vip';
+
+  const sceneOption = {
+    type: 'video',
+    scene: 'BasicVideoGenerateButton',
+    ...(isVipVisionModel ? { resolution: '720p' } : {}),
+    modelReqKey: modelId,
+    videoDuration: actualDuration,
+    ...(isVipVisionModel ? { inputVideoDuration: 0 } : {}),
+    reportParams: {
+      enterSource: 'generate',
+      vipSource: 'generate',
+      extraVipFunctionKey: isVipVisionModel ? `${modelId}-720p` : modelId,
+      useVipFunctionDetailsReporterHoc: true,
+    },
+    materialTypes: [1],
+  };
+
   const metricsExtra = JSON.stringify({
     isDefaultSeed: 1,
     originSubmitId: submitId,
@@ -670,21 +700,7 @@ async function generateSeedanceVideo(options) {
     enterFrom: 'click',
     position: 'page_bottom_box',
     functionMode: 'omni_reference',
-    sceneOptions: JSON.stringify([
-      {
-        type: 'video',
-        scene: 'BasicVideoGenerateButton',
-        modelReqKey: modelId,
-        videoDuration: actualDuration,
-        reportParams: {
-          enterFrom: 'generate',
-          vipSource: 'generate',
-          extraVipFunctionKey: modelId,
-          useVipFunctionDetailsReporterHoc: true,
-        },
-        materialTypes: [1],
-      },
-    ]),
+    sceneOptions: JSON.stringify([sceneOption]),
   });
 
   if (onProgress) onProgress('正在提交视频生成请求...');
@@ -696,8 +712,10 @@ async function generateSeedanceVideo(options) {
     device_platform: 'web',
     region: 'cn',
     webId: String(requestContext.webId),
-    da_version: SEEDANCE_DRAFT_VERSION,
+    da_version: draftVersion,
+    os: 'windows',
     web_component_open_flag: '1',
+    ...(isVipVisionModel ? { commerce_with_input_video: '1' } : {}),
     web_version: '7.5.0',
     aigc_features: 'app_lip_sync',
   });
@@ -720,16 +738,17 @@ async function generateSeedanceVideo(options) {
           resource_sub_type: 'aigc',
         },
       ],
+      ...(isVipVisionModel ? { workspace_id: 0 } : {}),
     },
     submit_id: submitId,
     metrics_extra: metricsExtra,
     draft_content: JSON.stringify({
       type: 'draft',
       id: generateUUID(),
-      min_version: SEEDANCE_DRAFT_VERSION,
+      min_version: draftVersion,
       min_features: ['AIGC_Video_UnifiedEdit'],
       is_from_tsn: true,
-      version: SEEDANCE_DRAFT_VERSION,
+      version: draftVersion,
       main_component_id: componentId,
       component_list: [
         {
@@ -759,7 +778,7 @@ async function generateSeedanceVideo(options) {
                   {
                     type: '',
                     id: generateUUID(),
-                    min_version: SEEDANCE_DRAFT_VERSION,
+                    min_version: draftVersion,
                     prompt: '',
                     video_mode: 2,
                     fps: 24,

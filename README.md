@@ -3,7 +3,7 @@
 > 基于字节跳动即梦平台 Seedance 2.0 模型的 AI 视频生成 Web 应用
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-v0.0.5-green.svg)
+![Version](https://img.shields.io/badge/version-v0.0.6-green.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
 ![React](https://img.shields.io/badge/React-19-61dafb.svg)
 ![Docker](https://img.shields.io/badge/Docker-supported-2496ED.svg)
@@ -16,7 +16,18 @@ Seedance 2.0 Web 是一款面向内容创作者、设计师、营销人员的 AI
 
 后端直接对接即梦 API，无需依赖 jimeng-free-api 等中间代理服务，架构简洁、部署方便，支持 Docker 一键部署。
 
-**最新功能（v0.0.5）：**
+**支持模型：**
+
+| 模型 | 模型 Key | 说明 |
+|------|---------|------|
+| Seedance 2.0 | `dreamina_seedance_40_pro` | 全能模型，高质量输出 |
+| Seedance 2.0 VIP | `dreamina_seedance_40_pro_vision` | 全能模型 VIP 版，720p 高分辨率 |
+| Seedance 2.0 Fast | `dreamina_seedance_40` | 快速模型，精简时长 |
+| Seedance 2.0 Fast VIP | `dreamina_seedance_40_vision` | 快速模型 VIP 版，720p 高分辨率 |
+
+**最新功能（v0.0.6）：**
+- 四模型可选：Seedance 2.0 / Seedance 2.0 VIP / Seedance 2.0 Fast / Seedance 2.0 Fast VIP
+- VIP 模型支持 720p 高分辨率输出，使用即梦最新 `dreamina_seedance_40_*_vision` 模型
 - 用户认证系统：支持邮箱注册、登录、密码修改
 - 左侧菜单导航：响应式设计，支持移动端
 - 管理员后台：用户管理、积分管理、系统统计
@@ -26,7 +37,7 @@ Seedance 2.0 Web 是一款面向内容创作者、设计师、营销人员的 AI
 - Playwright 浏览器代理：自动绕过即梦 shark 反爬机制，通过 bdms SDK 注入 `a_bogus` 签名
 - 多即梦账号轮询：支持单任务与批量任务按账号顺序轮询提交
 - 账号隔离提交上下文：按 SessionID 隔离浏览器会话、Cookie、`webId`、`userId`
-- 提交链路可观测性增强：新增“平台拒绝提交 / 提交成功 historyId”日志，便于定位风控与 fallback
+- 提交链路可观测性增强：新增”平台拒绝提交 / 提交成功 historyId”日志，便于定位风控与 fallback
 
 
 
@@ -44,7 +55,7 @@ Seedance 2.0 Web 是一款面向内容创作者、设计师、营销人员的 AI
 
 ### 核心亮点
 
-- 双模型可选：Seedance 2.0（高质量）/ Seedance 2.0 Fast（快速生成）
+- 四模型可选：Seedance 2.0（全能）/ Seedance 2.0 VIP（全能 720p）/ Seedance 2.0 Fast（快速）/ Seedance 2.0 Fast VIP（快速 720p）
 - 多图全能参考：最多 5 张参考图，`@1` `@2` 占位符灵活引用
 - 异步任务架构：提交即返回，后台生成 + 实时进度反馈
 - 视频代理播放：自动绕过 CDN CORS 限制，生成即可预览下载
@@ -205,7 +216,11 @@ npm run dev:server   # 仅启动 Express 后端 (:3001)
 
 #### 生成视频
 
-1. 选择模型：Seedance 2.0（高质量）或 Seedance 2.0 Fast（快速）
+1. 选择模型：
+   - **Seedance 2.0**：全能主角，音视频图均可参考（普通）
+   - **Seedance 2.0 VIP**：VIP 专属 720p 全能模型
+   - **Seedance 2.0 Fast**：快速生成，精简时长（普通）
+   - **Seedance 2.0 Fast VIP**：VIP 专属 720p 快速模型
 2. 上传参考图片（至少 1 张，最多 5 张）
 3. 在提示词框中描述视频场景，使用 `@1`、`@2` 引用对应图片
 4. 选择参考模式、画面比例和视频时长
@@ -515,7 +530,8 @@ docker compose down
 
 | 模版版本 | 日期 | 修订说明 |
 |------|------|------|
-| v0.0.5 | 2026-03-31 | 新增多即梦账号轮询、失败 fallback、按 SessionID 隔离浏览器提交上下文；补充“平台拒绝提交 / 提交成功 historyId”日志说明与排障文档 |
+| v0.0.6 | 2026-04-04 | 新增 Seedance 2.0 VIP / Seedance 2.0 Fast VIP 双 VIP 模型，支持 720p 高分辨率输出；VIP 模型使用 `dreamina_seedance_40_*_vision` 模型 key 与 `seedance_20_*_720p_output` benefit type |
+| v0.0.5 | 2026-03-31 | 新增多即梦账号轮询、失败 fallback、按 SessionID 隔离浏览器提交上下文；补充”平台拒绝提交 / 提交成功 historyId”日志说明与排障文档 |
 | v0.0.4 | 2026-03-23 | 新增用户认证系统、左侧菜单导航、管理员后台；支持邮箱注册登录、积分管理、每日签到 |
 | v0.0.3 | 2026-03-22 | 新增批量生成、下载管理功能；支持多任务并发、定时调度、进度追踪 |
 | v0.0.2 | 2026-02-21 | 修复 shark not pass 反爬拦截：引入 Playwright 无头浏览器代理，通过 bdms SDK 自动注入 `a_bogus` 签名 |
@@ -530,6 +546,7 @@ docker compose down
 | v0.0.3 | 2026-03-22 | 新增批量生成、下载管理功能；支持多任务并发、定时调度、进度追踪 |
 | v0.0.4 | 2026-03-23 | 新增用户认证系统、左侧菜单导航、管理员后台；支持邮箱注册登录、积分管理、每日签到 |
 | v0.0.5 | 2026-03-31 | 新增多即梦账号轮询与失败 fallback；按 SessionID 隔离浏览器会话、Cookie、`webId`、`userId`；补充提交链路可观测日志与排障说明 |
+| v0.0.6 | 2026-04-04 | 新增 Seedance 2.0 VIP / Seedance 2.0 Fast VIP 双 VIP 模型，支持 720p 高分辨率输出；VIP 模型使用 `dreamina_seedance_40_*_vision` 系列模型 |
 
 ## License
 
