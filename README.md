@@ -3,7 +3,7 @@
 > 基于字节跳动即梦平台 Seedance 2.0 模型的 AI 视频生成 Web 应用
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Version](https://img.shields.io/badge/version-v0.0.6-green.svg)
+![Version](https://img.shields.io/badge/version-v0.0.7-green.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
 ![React](https://img.shields.io/badge/React-19-61dafb.svg)
 ![Docker](https://img.shields.io/badge/Docker-supported-2496ED.svg)
@@ -12,22 +12,31 @@
 
 ## 项目介绍
 
-Seedance 2.0 Web 是一款面向内容创作者、设计师、营销人员的 AI 视频生成工具。用户只需上传 1-5 张参考图片，配合自然语言描述，即可通过即梦（jimeng.jianying.com）平台的 Seedance 2.0 模型生成高质量 AI 视频。
+Seedance 2.0 Web 是一款面向内容创作者、设计师、营销人员的 AI 视频生成工具。用户只需上传 1-5 张参考图片，配合自然语言描述，即可通过即梦（jimeng.jianying.com）国内版或 CapCut Dreamina（dreamina.capcut.com）国际版平台的 Seedance 2.0 模型生成高质量 AI 视频。
 
-后端直接对接即梦 API，无需依赖 jimeng-free-api 等中间代理服务，架构简洁、部署方便，支持 Docker 一键部署。
+后端直接对接即梦 / CapCut Dreamina API，无需依赖 jimeng-free-api 等中间代理服务，架构简洁、部署方便，支持 Docker 一键部署。
 
 **支持模型：**
 
-| 模型 | 模型 Key | 说明 |
-|------|---------|------|
-| Seedance 2.0 | `dreamina_seedance_40_pro` | 全能模型，高质量输出 |
-| Seedance 2.0 VIP | `dreamina_seedance_40_pro_vision` | 全能模型 VIP 版，720p 高分辨率 |
-| Seedance 2.0 Fast | `dreamina_seedance_40` | 快速模型，精简时长 |
-| Seedance 2.0 Fast VIP | `dreamina_seedance_40_vision` | 快速模型 VIP 版，720p 高分辨率 |
+| 模型 | 模型 Key | 版本 | 说明 |
+|------|---------|------|------|
+| Seedance 2.0 | `dreamina_seedance_40_pro` | 国内 | 全能模型，高质量输出 |
+| Seedance 2.0 VIP | `dreamina_seedance_40_pro_vision` | 国内 | 全能模型 VIP 版，720p 高分辨率 |
+| Seedance 2.0 Fast | `dreamina_seedance_40` | 国内 | 快速模型，精简时长 |
+| Seedance 2.0 Fast VIP | `dreamina_seedance_40_vision` | 国内 | 快速模型 VIP 版，720p 高分辨率 |
+| Seedance 2.0 | — | 国际 | 国际版全能模型（CapCut Dreamina） |
+| Seedance 2.0 Fast | — | 国际 | 国际版快速模型（CapCut Dreamina） |
 
-**最新功能（v0.0.6）：**
-- 四模型可选：Seedance 2.0 / Seedance 2.0 VIP / Seedance 2.0 Fast / Seedance 2.0 Fast VIP
-- VIP 模型支持 720p 高分辨率输出，使用即梦最新 `dreamina_seedance_40_*_vision` 模型
+**最新功能（v0.0.7）：**
+- 国际版（CapCut Dreamina）支持：通过国际版 SessionID 生成视频，支持新加坡、日本、美国等区域
+- 代理配置：国际版账号支持 HTTP / SOCKS5 代理，解决国内网络访问国际版的问题
+- 版本类型切换：单任务页和批量管理页支持国内版/国际版切换，国际版自动过滤非 VIP 模型
+- 视频代理增强：国际版 CDN 视频自动匹配代理、支持 Range 请求（视频拖拽播放）
+- 国际版权益查询：设置页可查看国际版账号的 AIGC 和 Seedance 积分余额
+- 国际版视频同步：下载管理新增"从国际版同步"按钮，补全缺少下载链接的国际版任务
+- VideoPlayer 增强：新增保存到服务器、浏览器下载、打开文件夹按钮；生成失败时降级为直接下载
+- 下载管理过滤：新增版本类型过滤器（全部/国内版/国际版）
+- 项目版本类型：创建项目时可选择国内版/国际版，批量生成时自动匹配对应账号
 - 用户认证系统：支持邮箱注册、登录、密码修改
 - 左侧菜单导航：响应式设计，支持移动端
 - 管理员后台：用户管理、积分管理、系统统计
@@ -55,7 +64,9 @@ Seedance 2.0 Web 是一款面向内容创作者、设计师、营销人员的 AI
 
 ### 核心亮点
 
-- 四模型可选：Seedance 2.0（全能）/ Seedance 2.0 VIP（全能 720p）/ Seedance 2.0 Fast（快速）/ Seedance 2.0 Fast VIP（快速 720p）
+- 国内/国际双版本：支持即梦（jimeng.jianying.com）和 CapCut Dreamina（dreamina.capcut.com）双平台
+- 六模型可选：国内版 Seedance 2.0（全能）/ Seedance 2.0 VIP（全能 720p）/ Seedance 2.0 Fast（快速）/ Seedance 2.0 Fast VIP（快速 720p）+ 国际版 Seedance 2.0 / Seedance 2.0 Fast
+- 国际版代理支持：HTTP / SOCKS5 代理配置，解决国内网络访问国际版问题
 - 多图全能参考：最多 5 张参考图，`@1` `@2` 占位符灵活引用
 - 异步任务架构：提交即返回，后台生成 + 实时进度反馈
 - 视频代理播放：自动绕过 CDN CORS 限制，生成即可预览下载
@@ -99,6 +110,11 @@ Seedance 2.0 Web 是一款面向内容创作者、设计师、营销人员的 AI
 | 系统设置 | 多账号轮询 | P0 | 支持多个即梦账号按顺序轮询与失败 fallback |
 | 系统设置 | 账号隔离提交上下文 | P0 | 按 SessionID 隔离浏览器会话、Cookie、`webId`、`userId` |
 | 系统设置 | 提交日志观测 | P1 | 可区分平台拒绝、提交成功、historyId 等关键信息 |
+| 国际版 | 版本类型切换 | P0 | 单任务和批量管理支持国内版/国际版切换 |
+| 国际版 | 代理配置 | P0 | 支持 HTTP / SOCKS5 代理访问国际版 API 和 CDN |
+| 国际版 | 权益查询 | P1 | 查看 AIGC 和 Seedance 积分余额 |
+| 国际版 | 视频同步 | P1 | 从国际版平台补全缺少下载链接的任务 |
+| 视频播放 | 增强操作栏 | P1 | 保存到服务器、浏览器下载、打开文件夹 |
 | 系统设置 | 响应式布局 | P0 | 桌面端左右分栏，移动端自适应 |
 | 系统设置 | Docker 部署 | P1 | 多阶段构建，docker compose 一键启动 |
 
@@ -109,6 +125,8 @@ Seedance 2.0 Web 是一款面向内容创作者、设计师、营销人员的 AI
 - **Node.js** >= 18（本地开发）或 **Docker**（容器部署）
 - **Chromium 浏览器**（由 Playwright-core 驱动，用于绕过 shark 反爬）
 - 有效的即梦平台 **SessionID**（从 `jimeng.jianying.com` Cookie 获取）
+- 国际版 **SessionID**（从 `dreamina.capcut.com` Cookie 获取，格式如 `sg-xxx`）
+- 国际版访问需要 **HTTP/SOCKS5 代理**（国内网络环境）
 
 ### 安装步骤
 
@@ -216,16 +234,23 @@ npm run dev:server   # 仅启动 Express 后端 (:3001)
 
 #### 生成视频
 
-1. 选择模型：
-   - **Seedance 2.0**：全能主角，音视频图均可参考（普通）
-   - **Seedance 2.0 VIP**：VIP 专属 720p 全能模型
-   - **Seedance 2.0 Fast**：快速生成，精简时长（普通）
-   - **Seedance 2.0 Fast VIP**：VIP 专属 720p 快速模型
-2. 上传参考图片（至少 1 张，最多 5 张）
-3. 在提示词框中描述视频场景，使用 `@1`、`@2` 引用对应图片
-4. 选择参考模式、画面比例和视频时长
-5. 点击「生成视频」按钮，等待生成完成
-6. 生成完成后自动播放，悬停视频右上角可下载
+1. 选择版本类型：
+   - **国内版**：即梦平台，支持 4 个模型（含 VIP 720p）
+   - **国际版**：CapCut Dreamina 平台，支持 2 个非 VIP 模型，需要国际版 SessionID
+2. 选择模型：
+   - 国内版可选：
+     - **Seedance 2.0**：全能主角，音视频图均可参考（普通）
+     - **Seedance 2.0 VIP**：VIP 专属 720p 全能模型
+     - **Seedance 2.0 Fast**：快速生成，精简时长（普通）
+     - **Seedance 2.0 Fast VIP**：VIP 专属 720p 快速模型
+   - 国际版可选：
+     - **Seedance 2.0**：国际版全能模型
+     - **Seedance 2.0 Fast**：国际版快速模型
+3. 上传参考图片（至少 1 张，最多 5 张）
+4. 在提示词框中描述视频场景，使用 `@1`、`@2` 引用对应图片
+5. 选择参考模式、画面比例和视频时长
+6. 点击「生成视频」按钮，等待生成完成
+7. 生成完成后自动播放，悬停视频右上角可保存/下载
 
 #### 管理员功能
 
@@ -259,24 +284,30 @@ seedance/
 │   ├── browser-service.js      # 浏览器代理服务
 │   ├── database/
 │   │   ├── index.js            # 数据库初始化
-│   │   └── schema.sql          # 数据库结构
+│   │   ├── schema.sql          # 数据库结构
+│   │   └── migrations/         # 数据库迁移文件
 │   └── services/
 │       ├── authService.js      # 用户认证服务
 │       ├── projectService.js   # 项目 CRUD
 │       ├── taskService.js      # 任务 CRUD
 │       ├── batchScheduler.js   # 批量任务调度器
 │       ├── videoDownloader.js  # 视频下载服务
-│       └── videoGenerator.js   # 视频生成核心
+│       ├── videoGenerator.js   # 视频生成核心（国内版）
+│       ├── internationalVideoGenerator.js  # 视频生成（国际版 CapCut Dreamina）
+│       └── jimengSessionService.js  # Session 账号管理（国内/国际）
 ├── src/
 │   ├── main.tsx                # 应用入口
 │   ├── App.tsx                 # 根组件（路由 + 认证 + 布局）
-│   ├── types.ts                # 类型定义与常量
+│   ├── types/                  # 类型定义目录
+│   │   └── index.ts            # 类型定义与常量
 │   ├── services/
 │   │   ├── authService.ts      # 用户认证服务
 │   │   ├── videoService.ts     # 视频生成服务
 │   │   ├── projectService.ts   # 项目管理服务
 │   │   ├── batchService.ts     # 批量生成服务
-│   │   └── downloadService.ts  # 下载管理服务
+│   │   ├── downloadService.ts  # 下载管理服务
+│   │   ├── settingsService.ts  # 设置管理服务
+│   │   └── taskService.ts      # 任务管理服务
 │   ├── components/
 │   │   ├── Sidebar.tsx         # 左侧菜单导航
 │   │   ├── VideoPlayer.tsx     # 视频播放组件
@@ -308,8 +339,11 @@ seedance/
 | Tailwind CSS | 3.4 | 原子化 CSS 样式方案 |
 | Express | 4.21 | 后端 HTTP 服务 |
 | Multer | 1.4 | 文件上传中间件 |
+| Axios | 1.14+ | HTTP 客户端（视频代理、国际版 API） |
 | Playwright-core | 1.49+ | 无头浏览器，绕过 shark 反爬 |
 | better-sqlite3 | - | SQLite 数据库 |
+| https-proxy-agent | 9.0+ | HTTP/HTTPS 代理支持 |
+| socks-proxy-agent | 10.0+ | SOCKS5 代理支持 |
 | Docker | - | 容器化部署 |
 
 ## 架构说明
@@ -352,10 +386,11 @@ seedance/
 | `users` | 用户表 | id, email, password_hash, role, status, credits |
 | `sessions` | 会话表 | session_id, user_id, expires_at |
 | `check_ins` | 签到记录 | user_id, credits_earned, created_at |
-| `projects` | 项目表 | id, name, description, settings_json |
-| `tasks` | 任务表 | id, project_id, prompt, status, video_url, download_status |
+| `projects` | 项目表 | id, name, description, settings_json, version_type |
+| `tasks` | 任务表 | id, project_id, prompt, status, video_url, download_status, version_type, account_info |
 | `batches` | 批量任务表 | id, project_id, task_ids, status, concurrent_count |
 | `settings` | 全局设置 | key, value, updated_at |
+| `jimeng_session_accounts` | 账号表 | id, user_id, session_id, name, version_type, region, proxy_url |
 
 ## API 接口
 
@@ -390,10 +425,18 @@ seedance/
 
 | 接口 | 方法 | 说明 |
 |------|------|------|
-| `/api/download/tasks` | GET | 获取下载任务列表 |
+| `/api/download/tasks` | GET | 获取下载任务列表（支持 `version_type` 过滤） |
 | `/api/download/tasks/:id` | POST | 下载单个视频 |
 | `/api/download/batch` | POST | 批量下载 |
 | `/api/download/tasks/:id/open` | POST | 打开文件夹 |
+| `/api/download/sync-from-international` | POST | 从国际版补全视频 URL |
+
+### Session 账号管理
+
+| 接口 | 方法 | 说明 |
+|------|------|------|
+| `/api/settings/session-accounts/test` | POST | 测试 SessionID（自动区分国内/国际版） |
+| `/api/settings/session-accounts/check-benefits` | POST | 查询国际版权益（AIGC/Seedance 积分） |
 
 ### 管理员接口
 
@@ -455,6 +498,29 @@ docker compose down
 ## 常见问题
 
 <details>
+<summary>如何配置国际版 SessionID？</summary>
+
+1. 浏览器访问 [dreamina.capcut.com](https://dreamina.capcut.com) 并登录
+2. 打开浏览器开发者工具（F12）→ Application → Cookies
+3. 找到 `sessionid` 字段，复制其值（格式如 `sg-xxx`、`jp-xxx`、`us-xxx`）
+4. 在 Seedance 2.0 设置页面中添加账号时，版本类型选择「国际版」
+5. 如果在国内网络环境，需配置代理地址（HTTP 或 SOCKS5）
+
+</details>
+
+<details>
+<summary>国际版需要配置代理吗？</summary>
+
+如果服务器部署在国内网络环境，访问 CapCut Dreamina 国际版 API 和 CDN 需要配置代理。支持的代理格式：
+
+- HTTP 代理：`http://127.0.0.1:7890`
+- SOCKS5 代理：`socks5://127.0.0.1:1080`
+
+代理地址在设置页添加/编辑国际版账号时配置。每个账号可以配置不同的代理。
+
+</details>
+
+<details>
 <summary>如何获取即梦 SessionID？</summary>
 
 1. 浏览器访问 [jimeng.jianying.com](https://jimeng.jianying.com) 并登录
@@ -511,7 +577,7 @@ docker compose down
 
 欢迎加入技术交流群，分享使用心得和创作成果：
 
-![image-20260406134415005](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20260406134415005.png)
+![20260412124230_24_6](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/20260412124230_24_6.jpg)
 
 ## 作者联系
 
@@ -530,6 +596,7 @@ docker compose down
 
 | 模版版本 | 日期 | 修订说明 |
 |------|------|------|
+| v0.0.7 | 2026-04-10 | 新增国际版（CapCut Dreamina）支持：国际版 SessionID 管理、代理配置（HTTP/SOCKS5）、国际版视频生成与代理播放；VideoPlayer 增加保存到服务器/浏览器下载/打开文件夹；下载管理新增版本类型过滤和国际版同步 |
 | v0.0.6 | 2026-04-04 | 新增 Seedance 2.0 VIP / Seedance 2.0 Fast VIP 双 VIP 模型，支持 720p 高分辨率输出；VIP 模型使用 `dreamina_seedance_40_*_vision` 模型 key 与 `seedance_20_*_720p_output` benefit type |
 | v0.0.5 | 2026-03-31 | 新增多即梦账号轮询、失败 fallback、按 SessionID 隔离浏览器提交上下文；补充”平台拒绝提交 / 提交成功 historyId”日志说明与排障文档 |
 | v0.0.4 | 2026-03-23 | 新增用户认证系统、左侧菜单导航、管理员后台；支持邮箱注册登录、积分管理、每日签到 |
@@ -547,6 +614,7 @@ docker compose down
 | v0.0.4 | 2026-03-23 | 新增用户认证系统、左侧菜单导航、管理员后台；支持邮箱注册登录、积分管理、每日签到 |
 | v0.0.5 | 2026-03-31 | 新增多即梦账号轮询与失败 fallback；按 SessionID 隔离浏览器会话、Cookie、`webId`、`userId`；补充提交链路可观测日志与排障说明 |
 | v0.0.6 | 2026-04-04 | 新增 Seedance 2.0 VIP / Seedance 2.0 Fast VIP 双 VIP 模型，支持 720p 高分辨率输出；VIP 模型使用 `dreamina_seedance_40_*_vision` 系列模型 |
+| v0.0.7 | 2026-04-10 | 新增国际版（CapCut Dreamina）支持：国际版 SessionID 管理（支持 sg/jp/us 等区域）、HTTP/SOCKS5 代理配置、国际版视频生成与 CDN 代理播放、国际版权益查询、国际版视频同步；VideoPlayer 增加保存/下载/打开文件夹操作栏；下载管理新增版本类型过滤 |
 
 ## License
 
